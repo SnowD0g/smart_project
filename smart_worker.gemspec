@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["marco.iannantuono@democom.it"]
   spec.summary       = 'smart_project libraries for services interaction'
   spec.description   = 'Shared behavior for integrate services in the SmartWork Project Environment'
-  spec.require_paths = ["lib"]
+  spec.require_paths = ["lib", "lib/smart_project"]
 
   spec.add_development_dependency "bundler", "~> 2.0"
   spec.add_development_dependency "rake", "~> 10.0"
