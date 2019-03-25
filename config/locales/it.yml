@@ -1,0 +1,4 @@
+it:
+  authentication:
+    errors:
+      user_required: 'Devi essere loggato !'
