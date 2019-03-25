@@ -8,11 +8,11 @@ module SmartProject
   autoload :Delegator,          'smart_project/delegator'
 
   module Helpers
-    autoload :Session,          'smart_project/helpers/session'
+    autoload :Auth,          'smart_project/helpers/auth'
   end
 
   module Strategies
-    autoload :Delegator,        'smart_project/strategies/session'
-    autoload :Delegator,        'smart_project/strategies/token'
+    autoload :Session,          'smart_project/strategies/session'
+    autoload :Token,            'smart_project/strategies/token'
   end
 end
