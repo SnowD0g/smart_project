@@ -15,4 +15,11 @@ module SmartProject
     autoload :Session,          'smart_project/strategies/session'
     autoload :Token,            'smart_project/strategies/token'
   end
+  
+  mattr_accessor :test
+  @@test = 'ciao'
+  
+  def self.setup
+    yield self
+  end
 end
