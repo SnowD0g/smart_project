@@ -19,10 +19,10 @@ module SmartProject
         case application_type
         when 'a'
         content = <<-RUBY
-            config.middleware.use Warden::Manager do |manager|
-              manager.default_strategies :token
-              manager.failure_app = ->(env){ SmartProject::Error::UnauthorizedApiController.action(:index).call(env) }
-            end
+          config.middleware.use Warden::Manager do |manager|
+            manager.default_strategies :token
+            manager.failure_app = ->(env){ SmartProject::Error::UnauthorizedApiController.action(:index).call(env) }
+          end
         RUBY
         append_to_file 'config/application.rb', content
         append_to_file 'config/initializers/warden.rb', 'Warden::Strategies.add(:session, SmartProject::Strategies::Session)'
