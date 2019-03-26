@@ -12,6 +12,7 @@ module SmartProject
   
   module Controllers
     autoload :WebSessionController, 'smart_project/controllers/web_sessions_controller'
+    autoload :ApiSessionController, 'smart_project/controllers/api_sessions_controller'
   end
 
   module Strategies
@@ -19,8 +20,8 @@ module SmartProject
     autoload :Token, 'smart_project/strategies/token'
   end
   
-  mattr_accessor :test
-  @@test = 'ciao'
+  mattr_accessor :session_layout
+  @@test = 'session'
   
   def self.setup
     yield self
