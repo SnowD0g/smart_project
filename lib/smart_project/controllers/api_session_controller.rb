@@ -1,4 +1,4 @@
-class SmartProject::ApiSessionsController < ActionController::API
+class SmartProject::ApiSessionController < ActionController::API
   include ActionController::Caching
   include ExceptionHandling
 end
