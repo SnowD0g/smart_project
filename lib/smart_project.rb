@@ -11,8 +11,8 @@ module SmartProject
   end
   
   module Controllers
-    autoload :WebSessionController, 'smart_project/controllers/web_sessions_controller'
-    autoload :ApiSessionController, 'smart_project/controllers/api_sessions_controller'
+    autoload :WebSessionController, 'smart_project/controllers/web_session_controller'
+    autoload :ApiSessionController, 'smart_project/controllers/api_session_controller'
   end
 
   module Strategies
