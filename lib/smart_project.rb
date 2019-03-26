@@ -8,7 +8,7 @@ module SmartProject
   autoload :Delegator,          'smart_project/delegator'
 
   module Helpers
-    autoload :Auth,          'smart_project/helpers/auth'
+    autoload :Auth,             'smart_project/helpers/auth'
   end
 
   module Strategies
