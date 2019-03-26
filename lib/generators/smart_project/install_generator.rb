@@ -11,6 +11,10 @@ module SmartProject
       def test
         puts 'ciaooo'
       end
+      
+      def asd
+        puts 'asdasd'
+      end
     end
   end
 end
