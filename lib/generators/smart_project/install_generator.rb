@@ -12,8 +12,8 @@ module SmartProject
       def configure_application
         application_type = ask('Tipo di applicazione [a]pi / [w]eb ?')
 
-        copy_file 'config/endpoints.yml', 'config/endpoints.yml'
-        copy_file 'config/initializers/warden.rb', 'config/initializers/warden.rb'
+        copy_file 'lib/endpoints.yml', 'config/endpoints.yml'
+        copy_file 'lib/warden.rb', 'config/initializers/warden.rb'
         append_to_file 'app/controllers/application.rb', 'include SmartProject::Helpers::Session'
         append_to_file 'app/controllers/application.rb', 'config.endpoints = config_for(:endpoints)'
         case application_type
