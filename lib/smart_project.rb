@@ -15,10 +15,6 @@ module SmartProject
     autoload :Token, 'smart_project/strategies/token'
   end
   
-  module Error
-    autoload UnauthorizedWebController, 'smart_project/strategies/session'
-  end
-  
   mattr_accessor :test
   @@test = 'ciao'
   
