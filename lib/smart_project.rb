@@ -9,6 +9,10 @@ module SmartProject
   module Helpers
     autoload :Session, 'smart_project/helpers/session'
   end
+  
+  module Controller
+    autoload :WebSessionController, 'smart_project/controller/web_sessions_controller'
+  end
 
   module Strategies
     autoload :Session, 'smart_project/strategies/session'
