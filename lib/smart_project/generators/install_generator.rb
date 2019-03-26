@@ -9,32 +9,61 @@ module SmartProject
     class InstallGenerator < Rails::Generators::Base
       source_root File.expand_path("../../../../", __FILE__)
 
-      def copy_flash_helper
-        copy_file "app/helpers/theme.rb", "app/helpers/theme.rb"
+      mattr_accessor :application_type
+      @@application_type = ask_with_default('Tipo di applicazione [a]pi / [w]eb', 'w')
+
+      case application_type
+      when 'w' then setup_web_application
+      when 'a' then setup_api_application
+      end
+        
+      common_setup
+
+      def api?
+        application_type == 'a'
       end
 
-      def add_assets_to_precompile
-        append_to_file "config/initializers/assets.rb", "Rails.application.config.assets.precompile += %w( base/vendors.bundle.js )\n"
-        append_to_file "config/initializers/assets.rb", "Rails.application.config.assets.precompile += %w( demo/default/base/scripts.bundle.js )\n"
-        append_to_file "config/initializers/assets.rb", "Rails.application.config.assets.precompile += %w( snippets/custom/pages/login.js )\n"
-        append_to_file "config/initializers/assets.rb", "Rails.application.config.assets.precompile += %w( notify.js )\n"
-        append_to_file "config/initializers/assets.rb", "Rails.application.config.assets.precompile += %w( misc/notification_bg.jpg )\n"
-        append_to_file "config/initializers/assets.rb", "Rails.application.config.assets.precompile += %w( misc/quick_actions_bg.jpg )\n"
-        append_to_file "config/initializers/assets.rb", "Rails.application.config.assets.precompile += %w( flags/020-flag.svg )\n"
-        append_to_file "config/initializers/assets.rb", "Rails.application.config.assets.precompile += %w( flags/015-china.svg )\n"
-        append_to_file "config/initializers/assets.rb", "Rails.application.config.assets.precompile += %w( flags/016-spain.svg )\n"
-        append_to_file "config/initializers/assets.rb", "Rails.application.config.assets.precompile += %w( flags/014-japan.svg )\n"
-        append_to_file "config/initializers/assets.rb", "Rails.application.config.assets.precompile += %w( flags/017-germany.svg )\n"
-        append_to_file "config/initializers/assets.rb", "Rails.application.config.assets.precompile += %w( users/user4.jpg )\n"
-        append_to_file "config/initializers/assets.rb", "Rails.application.config.assets.precompile += %w( misc/user_profile_bg.jpg )\n"
-        append_to_file "config/initializers/assets.rb", "Rails.application.config.assets.precompile += %w( logo/logo_default_dark.png )\n"
-        append_to_file "config/initializers/assets.rb", "Rails.application.config.assets.precompile += %w( blog/blog1.jpg )\n"
-        append_to_file "config/initializers/assets.rb", "Rails.application.config.assets.precompile += %w( users/user1.jpg )\n"
-        append_to_file "config/initializers/assets.rb", "Rails.application.config.assets.precompile += %w( bg/bg-4.jpg )\n"
-        append_to_file "config/initializers/assets.rb", "Rails.application.config.assets.precompile += %w( client-logos/logo1.png )\n"
-        append_to_file "config/initializers/assets.rb", "Rails.application.config.assets.precompile += %w( client-logos/logo2.png )\n"
-        append_to_file "config/initializers/assets.rb", "Rails.application.config.assets.precompile += %w( client-logos/logo3.png )\n"
-        append_to_file "config/initializers/assets.rb", "Rails.application.config.assets.precompile += %w( logos/logo-2.png )\n"
+      def web?
+        !api?
+      end
+
+      def setup_web_application
+          content = <<-RUBY
+            config.middleware.use Warden::Manager do |manager|
+              manager.default_strategies :session
+              manager.failure_app = ->(env){ SmartProject::Error::UnauthorizedWebController.action(:index).call(env) }
+            end
+          RUBY
+
+        append_to_file 'config/application.rb', content
+        append_to_file 'config/initializers/warden.rb', 'Warden::Strategies.add(:token, SmartProject::Strategies::Token)'
+      end
+        
+      def setup_api_application
+          content = <<-RUBY
+            config.middleware.use Warden::Manager do |manager|
+              manager.default_strategies :token
+              manager.failure_app = ->(env){ SmartProject::Error::UnauthorizedApiController.action(:index).call(env) }
+            end
+          RUBY
+        append_to_file 'config/application.rb', content
+        append_to_file 'config/initializers/warden.rb', 'Warden::Strategies.add(:session, SmartProject::Strategies::Session)'
+        append_to_file 'app/controllers/application.rb', 'skip_before_action :verify_authenticity_token'
+      end
+        
+      def common_setup
+        copy_file 'config/endpoints.yml', 'config/endpoints.yml'
+        copy_file 'config/initializers/warden.rb', 'config/initializers/warden.rb'
+
+        append_to_file 'app/controllers/application.rb', 'include SmartProject::Helpers::Session'
+        append_to_file 'app/controllers/application.rb', 'config.endpoints = config_for(:endpoints)'       
+      end
+
+      def ask_with_default(question, default, color = :blue)
+        return default unless $stdin.tty?
+        question = (question.split("?") << " [#{default}]?").join
+        answer = ask(question, color)
+        answer.to_s.strip.empty? ? default : answer
       end
     end
   end
