@@ -1,4 +1,4 @@
-class SessionsController < ApplicationController
+class SmartProject::WebSessionsController < ApplicationController
   layout 'session'
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_credential
   # GET /sessions/new
