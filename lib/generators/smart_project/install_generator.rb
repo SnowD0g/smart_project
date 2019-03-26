@@ -14,10 +14,11 @@ module SmartProject
 
         copy_file 'lib/endpoints.yml', 'config/endpoints.yml'
         copy_file 'lib/warden.rb', 'config/initializers/warden.rb'
-        append_to_file 'app/controllers/application.rb', 'include SmartProject::Helpers::Session'
-        append_to_file 'app/controllers/application.rb', 'config.endpoints = config_for(:endpoints)'
+        append_to_file 'app/controllers/application_controller.rb', 'include SmartProject::Helpers::Session'
+        append_to_file 'app/controllers/application_controller.rb', 'config.endpoints = config_for(:endpoints)'
         case application_type
         when 'a'
+        puts 'api'
         content = <<-RUBY
           config.middleware.use Warden::Manager do |manager|
             manager.default_strategies :token
@@ -26,8 +27,9 @@ module SmartProject
         RUBY
         append_to_file 'config/application.rb', content
         append_to_file 'config/initializers/warden.rb', 'Warden::Strategies.add(:session, SmartProject::Strategies::Session)'
-        append_to_file 'app/controllers/application.rb', 'skip_before_action :verify_authenticity_token'
+        append_to_file 'app/controllers/application_controller.rb', 'skip_before_action :verify_authenticity_token'
         when 'w'
+        puts 'web'
         content = <<-RUBY
           config.middleware.use Warden::Manager do |manager|
             manager.default_strategies :session
