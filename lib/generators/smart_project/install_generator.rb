@@ -9,8 +9,7 @@ module SmartProject
     class InstallGenerator < Rails::Generators::Base
       source_root File.expand_path("../../../../", __FILE__)
 
-      mattr_accessor :application_type
-      application_type = ask_with_default('Tipo di applicazione [a]pi / [w]eb', 'w')
+      @@application_type = ask_with_default('Tipo di applicazione [a]pi / [w]eb', 'w')
       
       def ask_with_default(question, default, color = :blue)
         return default unless $stdin.tty?
