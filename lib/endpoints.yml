@@ -1,0 +1,14 @@
+test:
+  authentication: 'http://localhost:3000'
+  module: 'http://localhost:3001'
+  webapp: 'http://localhost:3002'
+
+development:
+  authentication: 'http://localhost:3000'
+  module: 'http://localhost:3001'
+  webapp: 'http://localhost:3002'
+
+production:
+  authentication: 'swaccountservice.democom.tech'
+  module: ''
+  webapp: 'swwebapp.democom.tech'
