@@ -14,9 +14,9 @@ module SmartProject
 
         copy_file 'lib/endpoints.yml', 'config/endpoints.yml'
         copy_file 'lib/warden.rb', 'config/initializers/warden.rb'
-        inject_into_class 'app/controllers/application_controller.rb', ApplicationController, '  include SmartProject::Helpers::Session'
-        insert_into_file 'config/application.rb', '  config.endpoints = config_for(:endpoints)', :after => "class Application < Rails::Application"
-        
+        inject_into_class 'app/controllers/application_controller.rb', ApplicationController, "  include SmartProject::Helpers::Session\n"
+        insert_into_file 'config/application.rb', '    config.endpoints = config_for(:endpoints)', :after => "class Application < Rails::Application"
+
         case application_type
         when 'a'
         puts 'configurazione api application'
@@ -38,7 +38,7 @@ module SmartProject
             manager.failure_app = ->(env){ SmartProject::Error::UnauthorizedWebController.action(:index).call(env) }
           end
         RUBY
-        insert_into_file 'config/application.rb', content, :after => "class Application < Rails::Application"
+        insert_into_file 'config/application.rb', "\n#{content}", :after => "class Application < Rails::Application"
         prepend_to_file 'config/initializers/warden.rb', 'Warden::Strategies.add(:token, SmartProject::Strategies::Token)'
         end
       end
