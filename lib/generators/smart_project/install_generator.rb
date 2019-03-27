@@ -27,7 +27,19 @@ module SmartProject
     end
         RUBY
         insert_into_file 'config/application.rb', "\n#{content}", :after => "class Application < Rails::Application"
-        prepend_to_file 'config/initializers/warden.rb', 'Warden::Strategies.add(:session, SmartProject::Strategies::Session)'
+        
+        warden_content = <<- RUBY
+    Warden::Strategies.add(:session, SmartProject::Strategies::Session)
+    Warden::Manager.serialize_into_session do |user|
+      { email: user.email, id: user.id, type: user.type }
+    end
+
+    Warden::Manager.serialize_from_session do |payload|
+      "SmartProject::Authentication::#{payload['type']}".constantize.new(payload)
+    end
+        RUBY
+        
+        prepend_to_file 'config/initializers/warden.rb', warden_content 
         inject_into_class 'app/controllers/application_controller.rb', ApplicationController, "  skip_before_action :verify_authenticity_token\n"
 
         when 'a'
