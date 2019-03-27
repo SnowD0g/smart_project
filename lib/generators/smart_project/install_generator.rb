@@ -21,10 +21,10 @@ module SmartProject
         when 'a'
         puts 'configurazione api application'
         content = <<-RUBY
-          config.middleware.use Warden::Manager do |manager|
-            manager.default_strategies :token
-            manager.failure_app = ->(env){ SmartProject::Error::UnauthorizedApiController.action(:index).call(env) }
-          end
+    config.middleware.use Warden::Manager do |manager|
+      manager.default_strategies :token
+      manager.failure_app = ->(env){ SmartProject::Error::UnauthorizedApiController.action(:index).call(env) }
+    end
         RUBY
         inject_into_class 'config/application.rb', Application, "\n#{content}"
         prepend_to_file 'config/initializers/warden.rb', 'Warden::Strategies.add(:session, SmartProject::Strategies::Session)'
@@ -33,10 +33,10 @@ module SmartProject
         when 'w'
         puts 'configurazione web application'
         content = <<-RUBY
-          config.middleware.use Warden::Manager do |manager|
-            manager.default_strategies :session
-            manager.failure_app = ->(env){ SmartProject::Error::UnauthorizedWebController.action(:index).call(env) }
-          end
+    config.middleware.use Warden::Manager do |manager|
+      manager.default_strategies :session
+      manager.failure_app = ->(env){ SmartProject::Error::UnauthorizedWebController.action(:index).call(env) }
+    end
         RUBY
         insert_into_file 'config/application.rb', "\n#{content}", :after => "class Application < Rails::Application"
         prepend_to_file 'config/initializers/warden.rb', 'Warden::Strategies.add(:token, SmartProject::Strategies::Token)'
