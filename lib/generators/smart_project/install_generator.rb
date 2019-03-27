@@ -33,7 +33,6 @@ module SmartProject
     Warden::Manager.serialize_into_session do |user|
       { email: user.email, id: user.id, type: user.type }
     end
-
     Warden::Manager.serialize_from_session do |payload|
       "SmartProject::Authentication::#{payload['type']}".constantize.new(payload)
     end
