@@ -22,7 +22,7 @@ module SmartProject
         puts 'configurazione api application'
         content = <<-RUBY
     config.middleware.use Warden::Manager do |manager|
-      manager.default_strategies :token
+      manager.default_strategies :session
       manager.failure_app = ->(env){ SmartProject::Error::UnauthorizedApiController.action(:index).call(env) }
     end
         RUBY
@@ -34,7 +34,7 @@ module SmartProject
         puts 'configurazione web application'
         content = <<-RUBY
     config.middleware.use Warden::Manager do |manager|
-      manager.default_strategies :session
+      manager.default_strategies :token
       manager.failure_app = ->(env){ SmartProject::Error::UnauthorizedWebController.action(:index).call(env) }
     end
         RUBY
