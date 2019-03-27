@@ -18,7 +18,7 @@ module SmartProject
         insert_into_file 'config/application.rb', '    config.endpoints = config_for(:endpoints)', :after => "class Application < Rails::Application"
 
         case application_type
-        when 'a'
+        when 'w'
         puts 'configurazione api application'
         content = <<-RUBY
     config.middleware.use Warden::Manager do |manager|
@@ -30,7 +30,7 @@ module SmartProject
         prepend_to_file 'config/initializers/warden.rb', 'Warden::Strategies.add(:session, SmartProject::Strategies::Session)'
         inject_into_class 'app/controllers/application_controller.rb', ApplicationController, '  skip_before_action :verify_authenticity_token'
 
-        when 'w'
+        when 'a'
         puts 'configurazione web application'
         content = <<-RUBY
     config.middleware.use Warden::Manager do |manager|
