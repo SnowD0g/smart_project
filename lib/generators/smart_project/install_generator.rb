@@ -23,7 +23,7 @@ module SmartProject
         content = <<-RUBY
     config.middleware.use Warden::Manager do |manager|
       manager.default_strategies :session
-      manager.failure_app = ->(env){ SmartProject::Error::UnauthorizedApiController.action(:index).call(env) }
+      manager.failure_app = ->(env){ SmartProject::Error::UnauthorizedWebController.action(:index).call(env) }
     end
         RUBY
         insert_into_file 'config/application.rb', "\n#{content}", :after => "class Application < Rails::Application"
@@ -35,7 +35,7 @@ module SmartProject
         content = <<-RUBY
     config.middleware.use Warden::Manager do |manager|
       manager.default_strategies :token
-      manager.failure_app = ->(env){ SmartProject::Error::UnauthorizedWebController.action(:index).call(env) }
+      manager.failure_app = ->(env){ SmartProject::Error::UnauthorizedApiController.action(:index).call(env) }
     end
         RUBY
         insert_into_file 'config/application.rb', "\n#{content}", :after => "class Application < Rails::Application"
