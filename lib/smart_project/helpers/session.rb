@@ -11,7 +11,8 @@ module SmartProject::Helpers::Session
     end
 
     def current_user
-      "SmartProject::Authentication::#{user_type}".constantize.new(user_payload)
+      #"SmartProject::Authentication::#{user_type}".constantize.new(user_payload)
+      warden.user
     end
 
     def warden
