@@ -29,13 +29,14 @@ module SmartProject
         insert_into_file 'config/application.rb', "\n#{content}", :after => "class Application < Rails::Application"
         
         warden_content = <<-RUBY
-    Warden::Strategies.add(:session, SmartProject::Strategies::Session)
-    Warden::Manager.serialize_into_session do |user|
-      { email: user.email, id: user.id, type: user.type }
-    end
-    Warden::Manager.serialize_from_session do |payload|
-      "SmartProject::Authentication::#{payload['type']}".constantize.new(payload)
-    end
+Warden::Strategies.add(:session, SmartProject::Strategies::Session)
+Warden::Manager.serialize_into_session do |user|
+  { email: user.email, id: user.id, type: user.type }
+end
+Warden::Manager.serialize_from_session do |payload|
+  user_class = 'SmartProject::Authentication::' + payload['type']
+  user_class.constantize.new(payload)
+end
         RUBY
         
         prepend_to_file 'config/initializers/warden.rb', warden_content 
