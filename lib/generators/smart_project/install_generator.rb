@@ -19,7 +19,7 @@ module SmartProject
 
         case application_type
         when 'w'
-        puts 'configurazione api application'
+        puts 'configurazione web application'
         content = <<-RUBY
     config.middleware.use Warden::Manager do |manager|
       manager.default_strategies :session
@@ -31,7 +31,7 @@ module SmartProject
         inject_into_class 'app/controllers/application_controller.rb', ApplicationController, "  skip_before_action :verify_authenticity_token\n"
 
         when 'a'
-        puts 'configurazione web application'
+        puts 'configurazione api application'
         content = <<-RUBY
     config.middleware.use Warden::Manager do |manager|
       manager.default_strategies :token
