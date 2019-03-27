@@ -26,7 +26,7 @@ module SmartProject
       manager.failure_app = ->(env){ SmartProject::Error::UnauthorizedApiController.action(:index).call(env) }
     end
         RUBY
-        inject_into_class 'config/application.rb', Application, "\n#{content}"
+        insert_into_file 'config/application.rb', "\n#{content}", :after => "class Application < Rails::Application"
         prepend_to_file 'config/initializers/warden.rb', 'Warden::Strategies.add(:session, SmartProject::Strategies::Session)'
         inject_into_class 'app/controllers/application_controller.rb', ApplicationController, '  skip_before_action :verify_authenticity_token'
 
