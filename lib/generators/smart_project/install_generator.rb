@@ -28,7 +28,7 @@ module SmartProject
         RUBY
         insert_into_file 'config/application.rb', "\n#{content}", :after => "class Application < Rails::Application"
         
-        warden_content = <<- RUBY
+        warden_content = <<-RUBY
     Warden::Strategies.add(:session, SmartProject::Strategies::Session)
     Warden::Manager.serialize_into_session do |user|
       { email: user.email, id: user.id, type: user.type }
