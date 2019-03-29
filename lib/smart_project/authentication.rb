@@ -3,7 +3,7 @@ module SmartProject::Authentication
     attr_reader :id, :email, :type
 
     def initialize(attributes)
-      @id = attributes['sub']
+      @id = attributes['sub'] || attributes['id']
       @email = attributes['email']
       @type = attributes['type']
     end
