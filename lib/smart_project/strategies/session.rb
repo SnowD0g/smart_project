@@ -3,7 +3,6 @@ require 'smart_project/account_service'
 module SmartProject::Strategies
   class Session < ::Warden::Strategies::Base
     def valid?
-      asd
       authentication_session
     end
 
@@ -19,11 +18,12 @@ module SmartProject::Strategies
     private
 
     def authentication_session
-      session.has_key?('warden.user.default.key') || params.has_key?(:session)
+      session.has_key?('warden.user.default.key') || params.has_key?('session')
     end
 
     def payload
-      HashWithIndifferentAccess.new(session['warden.user.default.key'])
+      payload = session['warden.user.default.key'] || SmartProject::AccountService.get_token!(params['session']).payload
+      HashWithIndifferentAccess.new(payload)
     end
   end
 end
