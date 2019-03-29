@@ -3,6 +3,7 @@ require 'smart_project/account_service'
 module SmartProject::Strategies
   class Session < ::Warden::Strategies::Base
     def valid?
+      asd
       authentication_session
     end
 
