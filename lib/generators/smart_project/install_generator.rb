@@ -31,11 +31,12 @@ module SmartProject
         warden_content = <<-RUBY
 Warden::Strategies.add(:session, SmartProject::Strategies::Session)
 Warden::Manager.serialize_into_session do |user|
-  { email: user.email, id: user.id, type: user.type }
+  {jwt: user.jwt}
 end
 Warden::Manager.serialize_from_session do |payload|
-  user_class = 'SmartProject::Authentication::' + payload['type']
-  user_class.constantize.new(payload)
+  smart_token = SmartProject::AccountService::Token.new(payload['jwt'])
+  user_class = 'SmartProject::Authentication::' + smart_token.payload['type']
+  user_class.constantize.new(smart_token)
 end
         RUBY
         
