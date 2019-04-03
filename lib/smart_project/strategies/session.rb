@@ -8,7 +8,7 @@ module SmartProject::Strategies
 
     def authenticate!
       begin
-        user = "SmartProject::Authentication::#{payload['type']}".constantize.new(payload)
+        user = "SmartProject::Authentication::#{smart_token.payload['type']}".constantize.new(smart_token)
       rescue
         raise SmartProject::Error::Unauthorized
       end
@@ -21,9 +21,8 @@ module SmartProject::Strategies
       session.has_key?('warden.user.default.key') || params.has_key?('session')
     end
 
-    def payload
-      payload = session['warden.user.default.key'] || SmartProject::AccountService.get_token!(params['session']).payload
-      HashWithIndifferentAccess.new(payload)
+    def smart_token
+      SmartProject::AccountService::Token.new(session['warden.user.default.key']) || SmartProject::AccountService.get_token!(params['session'])
     end
   end
 end

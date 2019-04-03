@@ -10,8 +10,8 @@ module SmartProject::Strategies
 
     def authenticate!
       begin
-        payload = SmartProject::Token.new(token).payload
-        user = "SmartProject::Authentication::#{payload['type']}".constantize.new(payload)
+        smart_token = SmartProject::Token.new(token).payload
+        user = "SmartProject::Authentication::#{smart_token.payload['type']}".constantize.new(smart_token)
       rescue
         raise SmartProject::Error::Unauthorized
       end

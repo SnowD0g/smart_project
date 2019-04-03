@@ -8,5 +8,12 @@
     <orderEntry type="jdk" jdkName="RVM: ruby-2.5.1 [smart_worker]" jdkType="RUBY_SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="bundler (v2.0.1, RVM: ruby-2.5.1 [smart_worker]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="diff-lcs (v1.3, RVM: ruby-2.5.1 [smart_worker]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rake (v10.5.0, RVM: ruby-2.5.1 [smart_worker]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec (v3.8.0, RVM: ruby-2.5.1 [smart_worker]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-core (v3.8.0, RVM: ruby-2.5.1 [smart_worker]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-expectations (v3.8.2, RVM: ruby-2.5.1 [smart_worker]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-mocks (v3.8.0, RVM: ruby-2.5.1 [smart_worker]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-support (v3.8.0, RVM: ruby-2.5.1 [smart_worker]) [gem]" level="application" />
   </component>
 </module>
