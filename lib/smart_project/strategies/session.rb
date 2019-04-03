@@ -22,7 +22,7 @@ module SmartProject::Strategies
     end
 
     def smart_token
-      SmartProject::AccountService::Token.new(session['warden.user.default.key']) || SmartProject::AccountService.get_token!(params['session'])
+      SmartProject::Token.new(session['warden.user.default.key']) || SmartProject::AccountService.get_token!(params['session'])
     end
   end
 end

@@ -34,7 +34,7 @@ Warden::Manager.serialize_into_session do |user|
   {jwt: user.jwt}
 end
 Warden::Manager.serialize_from_session do |payload|
-  smart_token = SmartProject::AccountService::Token.new(payload['jwt'])
+  smart_token = SmartProject::Token.new(payload['jwt'])
   user_class = 'SmartProject::Authentication::' + smart_token.payload['type']
   user_class.constantize.new(smart_token)
 end
