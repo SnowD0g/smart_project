@@ -11,8 +11,11 @@ module SmartProject::Helpers::Session
     end
 
     def current_user
-      #"SmartProject::Authentication::#{user_type}".constantize.new(user_payload)
       warden.user
+    end
+
+    def current_jwt
+      session['warden.user.default.key']['jwt']
     end
 
     def warden
