@@ -36,6 +36,6 @@ module SmartProject::Helpers::Session
       warden.user
     end
 
-    helper_method :signed_in?, :current_user, :warden, :authenticate!
+    helper_method :signed_in?, :current_user, :current_jwt, :warden, :authenticate!
   end
 end
