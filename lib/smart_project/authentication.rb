@@ -1,6 +1,8 @@
 module SmartProject::Authentication
   class User
-    attr_reader :smart_token, :id, :email, :type
+    attr_reader :smart_token, :payload, :id, :email, :type
+
+    delegate :jwt, to: :smart_token
 
     def initialize(smart_token)
       @smart_token = smart_token
